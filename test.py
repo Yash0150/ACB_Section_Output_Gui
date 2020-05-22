@@ -177,16 +177,22 @@ def gen():
 def stcount():
     Dict= {}
     Dict_CN={}
+    #print(df2['Subject'])
+    for i in range(df2.shape[0]):
+        a=df2['Subject'][i]+df2['Catalog'][i]
+        a=a.replace(" ","")
+        Dict_CN[a]=df2['Course Title'][i]
     for i in range(df.shape[0]):
         x=df['Section'][i]
         y=df['StudentName'][i]
         z=df['StudentID'][i]
-        w=df['CourseName'][i]
+        #w=df['CourseName'][i]
         Dict[x]=0
-        Dict_CN[x.split('-')[0]]=w
+        #Dict_CN[x.split('-')[0]]=w
     for i in range(df.shape[0]):
         x=df['Section'][i]
         Dict[x]+=1
+#     print(Dict_CN)
     workbook = xlsxwriter.Workbook('stdcount'+'.xlsx')
     workbook.add_worksheet('count')
     cell_format = workbook.add_format({'bold': True, 'align': 'center'})
@@ -211,6 +217,7 @@ def stcount():
     
 p_dir = os.getcwd()
 df=pd.read_excel('Course_List.xls')
+df2=pd.read_excel('Timetable.xlsx',header=1)
 course=set()
 
 for i in range(df.shape[0]):
