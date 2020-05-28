@@ -29,6 +29,9 @@ class Table:
                 self.e.grid(row=i, column=j)
                 if(j==2): 
                     self.e.insert(END, data[i][j]) 
+                    
+Dict_Std={}
+Dict_Cls={}
 
 def mycmp(s1, s2):
     (a,b,c)=s1
@@ -132,55 +135,113 @@ def show():
 def gen():
     text=clicked.get()
     sec=clicked2.get()
-    workbook = xlsxwriter.Workbook(text+'-'+sec+'.xlsx')
-    workbook.add_worksheet(text+sec)
-    cell_format = workbook.add_format({'bold': True, 'align': 'center'})
-    cell_format3 =workbook.add_format ({'align': 'center'})
-    worksheet=workbook.get_worksheet_by_name(text+sec)
-    worksheet.set_column(0,200, 50)
-    worksheet.write(0,0,'NAME',cell_format)
-    worksheet.write(0,1,'ID',cell_format)
-    worksheet.write(0,2,'SECTION',cell_format)
-    data = set()
-    for i in range(df.shape[0]):
-        x=df['Section'][i].split('-')
-        y=x[1][1:]
-        y=y+x[1][0]
-        if(x[0]==text and sec==x[1]):
-            z=(y,df['StudentID'][i],df['StudentName'][i])
-            #print(sec==x[1])
-            data.add(z)
-    data=list(data)
-    data.sort()
-    y=('       SECTION','      ID','       NAME')
-    data.insert(0,y)
-    y=("","","")
-    data.insert(1,y)
-    for i in range(len(data)):
-        a=data[i][0]
-        b=data[i][1]
-        c=data[i][2]
-        l=[b,c,a]
-        for j in range(3):
-            if(j==2): 
-                x=len(a)
-                y=""
-                if(x!=0):
-                    y=a[x-1]+a[0:x-1]
-                if(x>8):
-                    y='       SECTION'
-                worksheet.write(i,j,y,cell_format3)
-            else: 
-                worksheet.write(i,j,l[j],cell_format3)
-    workbook.close() 
+    if(sec=='L0'):
+        workbook = xlsxwriter.Workbook(text+'-'+sec+'.xlsx')
+        workbook.add_worksheet(text+sec)
+        cell_format = workbook.add_format({'bold': True, 'align': 'center'})
+        cell_format3 =workbook.add_format ({'align': 'center'})
+        worksheet=workbook.get_worksheet_by_name(text+sec)
+        worksheet.set_column(0,200, 50)
+        worksheet.write(0,0,'NAME',cell_format)
+        worksheet.write(0,1,'ID',cell_format)
+        worksheet.write(0,2,'SECTION',cell_format)
+        data = set()
+        for i in range(df.shape[0]):
+            x=df['Section'][i].split('-')
+            y=x[1][1:]
+            y=y+x[1][0]
+            if(x[0]==text):
+                z=(y,df['StudentID'][i],df['StudentName'][i])
+                q=x[0]
+                r=x[1]
+                #print(sec==x[1])
+                data.add(z)
+        data=list(data)
+        data.sort()
+        y=('       SECTION','      ID','       NAME')
+        data.insert(0,y)
+        y=("","","")
+        data.insert(1,y)
+        for i in range(len(data)):
+            a=data[i][0]
+            worksheet.write(i,0,q,cell_format3)
+            b=data[i][1]
+            c=data[i][2]
+            l=[b,c,a]
+            for j in range(3):
+                if(j==2): 
+                    x=len(a)
+                    y=""
+                    if(x!=0):
+                        y=a[x-1]+a[0:x-1]
+                    if(x>8):
+                        y='       SECTION'
+                    worksheet.write(i,j+1,y,cell_format3)
+                else: 
+                    worksheet.write(i,j+1,l[j],cell_format3)
+        worksheet.write(0,0,"COURSE",cell_format3)
+        worksheet.write(1,0," ",cell_format3)
+        workbook.close() 
+        
+    else:
+        workbook = xlsxwriter.Workbook(text+'-'+sec+'.xlsx')
+        workbook.add_worksheet(text+sec)
+        cell_format = workbook.add_format({'bold': True, 'align': 'center'})
+        cell_format3 =workbook.add_format ({'align': 'center'})
+        worksheet=workbook.get_worksheet_by_name(text+sec)
+        worksheet.set_column(0,200, 50)
+        worksheet.write(0,0,'NAME',cell_format)
+        worksheet.write(0,1,'ID',cell_format)
+        worksheet.write(0,2,'SECTION',cell_format)
+        data = set()
+        for i in range(df.shape[0]):
+            x=df['Section'][i].split('-')
+            y=x[1][1:]
+            y=y+x[1][0]
+            if(x[0]==text and sec==x[1]):
+                z=(y,df['StudentID'][i],df['StudentName'][i])
+                q=x[0]
+                r=x[1]
+                #print(sec==x[1])
+                data.add(z)
+        data=list(data)
+        data.sort()
+        y=('       SECTION','      ID','       NAME')
+        data.insert(0,y)
+        y=("","","")
+        data.insert(1,y)
+        for i in range(len(data)):
+            a=data[i][0]
+            worksheet.write(i,0,q,cell_format3)
+            b=data[i][1]
+            c=data[i][2]
+            l=[b,c,a]
+            for j in range(3):
+                if(j==2): 
+                    x=len(a)
+                    y=""
+                    if(x!=0):
+                        y=a[x-1]+a[0:x-1]
+                    if(x>8):
+                        y='       SECTION'
+                    worksheet.write(i,j+1,y,cell_format3)
+                else: 
+                    worksheet.write(i,j+1,l[j],cell_format3)
+        worksheet.write(0,0,"COURSE",cell_format3)
+        worksheet.write(1,0," ",cell_format3)
+        workbook.close() 
 
 def stcount():
     Dict= {}
     Dict_CN={}
     #print(df2['Subject'])
     for i in range(df2.shape[0]):
-        a=df2['Subject'][i]+df2['Catalog'][i]
-        a=a.replace(" ","")
+        x=df2['Subject'][i]
+        y=df2['Catalog'][i]
+        x=x.replace(" ","")
+        y=y.replace(" ","")
+        a=x+y
+        Dict_Std[a]=x+" "+y
         Dict_CN[a]=df2['Course Title'][i]
     for i in range(df.shape[0]):
         x=df['Section'][i]
@@ -188,6 +249,7 @@ def stcount():
         z=df['StudentID'][i]
         #w=df['CourseName'][i]
         Dict[x]=0
+        Dict_Cls[x]=df['ClassNbr'][i]
         #Dict_CN[x.split('-')[0]]=w
     for i in range(df.shape[0]):
         x=df['Section'][i]
@@ -203,14 +265,16 @@ def stcount():
     worksheet.write(0,1,'SECTION',cell_format)
     worksheet.write(0,2,'COURSE NAME',cell_format)
     worksheet.write(0,3,'COUNT',cell_format)
+    worksheet.write(0,4,'Class Number',cell_format)
 #     data = set()
     cnt=2
     for k in Dict:
        # print(k.split('-'))
-        worksheet.write(cnt,0,k.split('-')[0],cell_format3)
+        worksheet.write(cnt,0,Dict_Std[k.split('-')[0]],cell_format3)
         worksheet.write(cnt,1,k.split('-')[1],cell_format3)
         worksheet.write(cnt,2,Dict_CN[k.split('-')[0]],cell_format3)
         worksheet.write(cnt,3,Dict[k],cell_format3)
+        worksheet.write(cnt,4,Dict_Cls[k],cell_format3)
         cnt+=1
     workbook.close() 
     
