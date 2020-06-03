@@ -146,6 +146,7 @@ def gen():
         worksheet.write(0,1,'ID',cell_format)
         worksheet.write(0,2,'SECTION',cell_format)
         data = set()
+        q=""
         for i in range(df.shape[0]):
             x=df['Section'][i].split('-')
             y=x[1][1:]
@@ -156,6 +157,14 @@ def gen():
                 r=x[1]
                 #print(sec==x[1])
                 data.add(z)
+        a=""
+        b=""
+        if(q!=""):
+            for i in range(len(q)-4):
+                a+=q[i]
+            for i in range(len(q)-4,len(q)):
+                b+=q[i]
+        q=a+" "+b
         data=list(data)
         data.sort()
         y=('       SECTION','      ID','       NAME')
@@ -194,6 +203,7 @@ def gen():
         worksheet.write(0,1,'ID',cell_format)
         worksheet.write(0,2,'SECTION',cell_format)
         data = set()
+        q=""
         for i in range(df.shape[0]):
             x=df['Section'][i].split('-')
             y=x[1][1:]
@@ -204,6 +214,15 @@ def gen():
                 r=x[1]
                 #print(sec==x[1])
                 data.add(z)
+        p=0
+        a=""
+        b=""
+        if(q!=""):
+            for i in range(len(q)-4):
+                a+=q[i]
+            for i in range(len(q)-4,len(q)):
+                b+=q[i]
+        q=a+" "+b
         data=list(data)
         data.sort()
         y=('       SECTION','      ID','       NAME')
@@ -336,6 +355,5 @@ myButton3 = Button(root, text="Summary", command=stcount,pady=20)
 myButton3.pack()
 
 root.mainloop()
-
 
 
